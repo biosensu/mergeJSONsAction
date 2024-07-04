@@ -19,7 +19,8 @@ async function combineJsonFiles(p, prefix) {
 async function gerarConsolidado() {
   try {
     console.log('salvando entradas...')
-    const caminho = core.getInput("caminho");
+    const github_path = process.env.GITHUB_WORKSPACE;
+    const caminho = `${github_path}${core.getInput("caminho")}`
     const prefixo = core.getInput("prefixo");
     console.log('entradas obtidas com sucesso')
     const combinedData = await combineJsonFiles(caminho, prefixo);

@@ -34,7 +34,7 @@ async function gerarConsolidado() {
     }
 
     await fs.writeFile(
-      path.join(caminho, "combinados.json"),
+      `${caminho}combinados.json`,
       JSON.stringify(combinedData, null, 2)
     );
 

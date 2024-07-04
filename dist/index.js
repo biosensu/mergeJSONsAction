@@ -38294,8 +38294,8 @@ const github = __nccwpck_require__(5231);
 const fg = __nccwpck_require__(9793);
 const fs = (__nccwpck_require__(7147).promises);
 
-async function combineJsonFiles(path, prefix) {
-  const jsonFiles = await fg(`${path}${prefix}*.json`);
+async function combineJsonFiles(p, prefix) {
+  const jsonFiles = await fg(`${p}${prefix}*.json`);
   const combinedData = [];
 
   for (const file of jsonFiles) {
@@ -38309,10 +38309,13 @@ async function combineJsonFiles(path, prefix) {
 
 async function gerarConsolidado() {
   try {
-    const caminho = core.getInput("caminho");
+    console.log('salvando entradas...')
+    const github_path = process.env.GITHUB_WORKSPACE;
+    const caminho = `${github_path}${core.getInput("caminho")}`
     const prefixo = core.getInput("prefixo");
+    console.log('entradas obtidas com sucesso')
     const combinedData = await combineJsonFiles(caminho, prefixo);
-
+    console.log('jsons combinados com sucesso. Salvando arquivo...')
     try {
       await fs.access(caminho);
     } catch (error) {
@@ -38323,11 +38326,11 @@ async function gerarConsolidado() {
     } catch (error) {
       core.setFailed("couldn't create directory structure");
     }
+    console.log('diretório acessado')
 
-    await fs.writeFile(
-      `${caminho}combinados.json`,
-      JSON.stringify(combinedData, null, 2)
-    );
+    core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
+      
+  
 
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`The event payload: ${payload}`);

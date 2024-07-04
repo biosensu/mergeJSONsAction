@@ -37,10 +37,9 @@ async function gerarConsolidado() {
     }
     console.log('diretório acessado')
 
-    await fs.writeFile(
-      `${caminho}combinados.json`,
-      JSON.stringify(combinedData, null, 2)
-    );
+    core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
+      
+  
 
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`The event payload: ${payload}`);

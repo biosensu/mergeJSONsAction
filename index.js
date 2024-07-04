@@ -18,7 +18,6 @@ async function combineJsonFiles(path, prefix) {
 }
 
 try {
-  // `who-to-greet` input defined in action metadata file
   const caminho = core.getInput("caminho");
   const prefixo = core.getInput("prefixo");
   const combinedData = await combineJsonFiles(caminho, prefixo);

@@ -1,6 +1,5 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-const { promises: fs } = require("fs");
 const fg = require("fast-glob");
 const fs = require("fs").promises;
 
@@ -17,26 +16,33 @@ async function combineJsonFiles(path, prefix) {
   return combinedData;
 }
 
-try {
-  const caminho = core.getInput("caminho");
-  const prefixo = core.getInput("prefixo");
-  const combinedData = await combineJsonFiles(caminho, prefixo);
-
+async function gerarConsolidado() {
   try {
-    await fs.access(caminho);
-  } catch (error) {
-    await fs.mkdir(caminho, { recursive: true });
-  }
-  try {
-    await fs.access(caminho);
-  } catch (error) {
-    core.setFailed("couldn't create directory structure");
-  }
+    const caminho = core.getInput("caminho");
+    const prefixo = core.getInput("prefixo");
+    const combinedData = await combineJsonFiles(caminho, prefixo);
 
-  await fs.writeFile(path.join(caminho,"combinados.json"), JSON.stringify(combinedData, null, 2));
+    try {
+      await fs.access(caminho);
+    } catch (error) {
+      await fs.mkdir(caminho, { recursive: true });
+    }
+    try {
+      await fs.access(caminho);
+    } catch (error) {
+      core.setFailed("couldn't create directory structure");
+    }
 
-  const payload = JSON.stringify(github.context.payload, undefined, 2);
-  console.log(`The event payload: ${payload}`);
-} catch (error) {
-  core.setFailed(error.message);
+    await fs.writeFile(
+      path.join(caminho, "combinados.json"),
+      JSON.stringify(combinedData, null, 2)
+    );
+
+    const payload = JSON.stringify(github.context.payload, undefined, 2);
+    console.log(`The event payload: ${payload}`);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+gerarConsolidado();

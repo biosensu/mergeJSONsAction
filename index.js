@@ -3,8 +3,8 @@ const github = require("@actions/github");
 const fg = require("fast-glob");
 const fs = require("fs").promises;
 
-async function combineJsonFiles(path, prefix) {
-  const jsonFiles = await fg(`${path}${prefix}*.json`);
+async function combineJsonFiles(p, prefix) {
+  const jsonFiles = await fg(`${p}${prefix}*.json`);
   const combinedData = [];
 
   for (const file of jsonFiles) {
@@ -18,10 +18,12 @@ async function combineJsonFiles(path, prefix) {
 
 async function gerarConsolidado() {
   try {
+    console.log('salvando entradas...')
     const caminho = core.getInput("caminho");
     const prefixo = core.getInput("prefixo");
+    console.log('entradas obtidas com sucesso')
     const combinedData = await combineJsonFiles(caminho, prefixo);
-
+    console.log('jsons combinados com sucesso. Salvando arquivo...')
     try {
       await fs.access(caminho);
     } catch (error) {
@@ -32,6 +34,7 @@ async function gerarConsolidado() {
     } catch (error) {
       core.setFailed("couldn't create directory structure");
     }
+    console.log('diretório acessado')
 
     await fs.writeFile(
       `${caminho}combinados.json`,

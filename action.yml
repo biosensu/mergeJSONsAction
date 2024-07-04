@@ -1,0 +1,14 @@
+name: 'Merge JSONs Action'
+description: 'GCombine multiple json files in a dir into one'
+inputs:
+  caminho:  # id of input
+    description: 'Caminho para a pasta com JSONs'
+    required: true
+    default: '/'
+  prefixo:
+    description: 'Prefixo dos arquivos a serem combinados'
+    required: true
+    default: 'BS'
+runs:
+  using: 'node20'
+  main: 'index.js'

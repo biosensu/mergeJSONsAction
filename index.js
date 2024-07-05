@@ -37,6 +37,13 @@ async function gerarConsolidado() {
     // }
     console.log('diretório acessado')
 
+    const resumo = combinedData.reduce((acc, curr) => {
+      acc[curr.uuid] = curr.nome;
+      return acc;
+    }, {});
+    
+    core.setOutput("resumo", JSON.stringify(resumo, null, 2))
+
     core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
       
     return combinedData
@@ -45,11 +52,5 @@ async function gerarConsolidado() {
   }
 }
 
-let consolidado = await gerarConsolidado();
+gerarConsolidado();
 
-const resumo = consolidado.reduce((acc, curr) => {
-  acc[curr.uuid] = curr.nome;
-  return acc;
-}, {});
-
-core.setOutput("resumo", JSON.stringify(resumo, null, 2))

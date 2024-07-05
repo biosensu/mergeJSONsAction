@@ -38328,18 +38328,24 @@ async function gerarConsolidado() {
     // }
     console.log('diretório acessado')
 
+    const resumo = combinedData.reduce((acc, curr) => {
+      acc[curr.uuid] = curr.nome;
+      return acc;
+    }, {});
+    
+    core.setOutput("resumo", JSON.stringify(resumo, null, 2))
+
     core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
       
-  
-
-    const payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log(`The event payload: ${payload}`);
+    return combinedData
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
 gerarConsolidado();
+
+
 })();
 
 module.exports = __webpack_exports__;

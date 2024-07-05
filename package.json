@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build index.js --license license.txt",
+    "tag": "git add . && git commit -m 'preparando nova tag' && read -p 'Informe a mensagem da tag: ' message && read -p 'Informe o número da versão: ' version && git tag -a -m \"$message\" v$version",
+    "push_tag": "git push --follow-tags" 
   },
   "keywords": [],
   "author": "Biosensu",

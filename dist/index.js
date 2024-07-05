@@ -38315,16 +38315,17 @@ async function gerarConsolidado() {
     console.log('entradas obtidas com sucesso')
     const combinedData = await combineJsonFiles(caminho, prefixo);
     console.log('jsons combinados com sucesso. Salvando arquivo...')
-    try {
-      await fs.access(caminho);
-    } catch (error) {
-      await fs.mkdir(caminho, { recursive: true });
-    }
-    try {
-      await fs.access(caminho);
-    } catch (error) {
-      core.setFailed("couldn't create directory structure");
-    }
+    // try {
+    //   await fs.access(caminho);
+    // } catch (error) {
+    //   console.error(error)
+    //   await fs.mkdir(caminho, { recursive: true });
+    // }
+    // try {
+    //   await fs.access(caminho);
+    // } catch (error) {
+    //   core.setFailed("couldn't create directory structure");
+    // }
     console.log('diretório acessado')
 
     core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))

@@ -39,13 +39,17 @@ async function gerarConsolidado() {
 
     core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
       
-  
-
-    const payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log(`The event payload: ${payload}`);
+    return combinedData
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-gerarConsolidado();
+let consolidado = await gerarConsolidado();
+
+const resumo = consolidado.reduce((acc, curr) => {
+  acc[curr.uuid] = curr.nome;
+  return acc;
+}, {});
+
+core.setOutput("resumo", JSON.stringify(resumo, null, 2))

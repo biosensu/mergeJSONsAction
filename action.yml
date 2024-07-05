@@ -12,6 +12,8 @@ inputs:
 outputs:
   consolidado:
     description: 'Arquivo consolidado'
+  resumo:
+    description: 'Nomes dos modelos de acordo com o código'
 runs:
   using: 'node20'
   main: 'dist/index.js'

@@ -38310,8 +38310,7 @@ async function combineJsonFiles(p, prefix) {
 async function gerarConsolidado() {
   try {
     console.log('salvando entradas...')
-    const github_path = github.head_ref ? `/${github.head_ref}/` : `/`;
-    const caminho = `${github_path}${core.getInput("caminho")}`
+    const caminho = core.getInput("caminho");
     const prefixo = core.getInput("prefixo");
     console.log('entradas obtidas com sucesso')
     const combinedData = await combineJsonFiles(caminho, prefixo);

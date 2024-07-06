@@ -38332,10 +38332,15 @@ async function gerarConsolidado() {
       acc[curr.uuid] = curr.nome;
       return acc;
     }, {});
+
+    const campos = combinedData.reduce((acc, curr) => {
+      acc[curr.uuid] = curr;
+      return acc;
+    }, {});
     
     core.setOutput("resumo", JSON.stringify(resumo, null, 2))
 
-    core.setOutput("consolidado", JSON.stringify(combinedData, null, 2))
+    core.setOutput("consolidado", JSON.stringify(campos, null, 2))
       
     return combinedData
   } catch (error) {
